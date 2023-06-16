@@ -22,6 +22,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+//	implementation("org.springdoc:springdoc-openapi-data-rest:1.6.0")
+//	implementation("org.springdoc:springdoc-openapi-ui:1.6.0")
+//	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+//	implementation(kotlin("stdlib-jdk8"))
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -35,3 +40,7 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+//kotlin {
+//	jvmToolchain(11)
+//}
