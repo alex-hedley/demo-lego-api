@@ -1,0 +1,126 @@
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: Brick Repo
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/bricks:
+    get:
+      summary: List of bricks.
+      description: Returns the list of all bricks
+      operationId: get_bricks
+      tags:
+        - Bricks
+      responses:
+        '200':
+          description: List of all bricks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": '#/components/schemas/Brick'
+    post:
+      summary: Creates a brick.
+      description: Creates a brick using given fields.
+      operationId: create_brick
+      tags:
+        - Bricks
+      requestBody:
+        description: Required information to create a brick
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": '#/components/schemas/BrickBody'
+      responses:
+        '200':
+          description: Created brick
+          content:
+            application/json:
+              schema:
+                "$ref": '#/components/schemas/Brick'
+        '400':
+          description: Request was wrong. Some fields in body might be missing or invalid.
+          content:
+            application/json:
+              schema:
+                "$ref": '#/components/schemas/Error'
+  /v1/bricks/{id}:
+    get:
+      summary: Particular brick info
+      description: All the information on a single brick
+      operationId: get_brick
+      parameters:
+        - name: id
+          schema:
+            type: integer
+          required: true
+          in: path
+      tags:
+        - Bricks
+      responses:
+        '200':
+          description: A brick object
+          content:
+            application/json:
+              schema:
+                "$ref": '#/components/schemas/Brick'
+        '404':
+          description: Provided brick ID does not correspond to any object in the DB
+          content:
+            application/json:
+              schema:
+                "$ref": '#/components/schemas/Error'
+components:
+  parameters:
+    slug:
+      in: path
+      name: slug
+      schema:
+        type: string
+      required: true
+      description: Human readable id of brick
+
+  schemas:
+    Brick:
+      required:
+        - id
+        - colour
+        - shape
+      properties:
+        id:
+          type: integer
+          description: "Database id of the brick"
+        colour:
+          type: string
+          description: "Colour of the brick"
+        shape:
+          type: string
+          description: "Shape of the brick"
+      example:
+        id: 3986238010
+        colour: "red"
+        shape: "2x4"
+    BrickBody:
+      required:
+        - colour
+        - shape
+      properties:
+        colour:
+          type: string
+        shape:
+          type: string
+      example:
+        model: "red"
+        make: "2x4"
+    Error:
+      required:
+        - msg
+        - errorCode
+      properties:
+        msg:
+          type: string
+        errorCode:
+          type: integer
